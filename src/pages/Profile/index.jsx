@@ -6,8 +6,8 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 
 import iconPen from "../../assets/icons/icon-pen.svg";
-import loadingImage from "../../assets/images/loading.svg";
 import placeholderImage from "../../assets/images/placeholder-profile.jpg";
+import { ProfileSkeleton } from "../../components/SkeletonLoaders";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import { profileAction } from "../../redux/slices/profile.slice";
@@ -104,15 +104,7 @@ function Profile() {
     }
   };
 
-  const Loading = (props) => {
-    return (
-      <main className="h-[80vh] flex items-center justify-center">
-        <div>
-          <img src={loadingImage} alt="Loading..." />
-        </div>
-      </main>
-    );
-  };
+
 
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
@@ -204,7 +196,7 @@ function Profile() {
     <>
       <Header />
       {isLoading ? (
-        <Loading />
+        <ProfileSkeleton />
       ) : (
         <>
           <EditPassword isOpen={editPassModal} onClose={closeEpassModal} />

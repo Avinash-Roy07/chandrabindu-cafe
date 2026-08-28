@@ -1,31 +1,41 @@
 /* eslint-disable react/jsx-filename-extension */
 import './styles/index.css';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
+import SplashScreen from './components/SplashScreen';
 import { Notification } from './components/Notification';
 import store, { persistor } from './redux/store';
 import reportWebVitals from './reportWebVitals';
 import Router from './router';
 
+const App = () => {
+  const [showSplash, setShowSplash] = useState(() => !sessionStorage.getItem("splashShown"));
+
+  return (
+    <>
+      {showSplash && <SplashScreen onDone={() => setShowSplash(false)} />}
+      {!showSplash && (
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            <Router />
+            <Notification />
+          </PersistGate>
+        </Provider>
+      )}
+    </>
+  );
+};
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <Router />
-        {/* <RouterProvider router={router} /> */}
-        <Notification />
-      </PersistGate>
-    </Provider>
+    <App />
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

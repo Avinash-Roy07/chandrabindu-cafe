@@ -24,12 +24,12 @@ const EyeIcon = ({ open }) =>
 const Login = () => {
   const navigate = useNavigate();
   useDocumentTitle("Login");
+  const dispatch = useDispatch();
 
-  const [form, setForm] = useState({ email: "", password: "", rememberMe: false });
+  const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
-  const dispatch = useDispatch();
 
   async function loginHandler(e) {
     e.preventDefault();
@@ -46,8 +46,8 @@ const Login = () => {
     try {
       const { token, user } = await firebaseLogin(form.email, form.password);
       dispatch(uinfoAct.assignToken(token));
-      dispatch(uinfoAct.assignData({ role: 1, email: user.email }));
-      toast.success("Welcome back! ☕", { id: toastId });
+      dispatch(uinfoAct.assignData({ role: 1, email: user.email, displayName: user.displayName }));
+      toast.success(`Welcome back${user.displayName ? ", " + user.displayName : ""}! ☕`, { id: toastId });
       navigate("/products");
     } catch (err) {
       setIsLoading(false);
@@ -56,6 +56,8 @@ const Login = () => {
           ? "Incorrect email or password"
           : err.code === "auth/too-many-requests"
           ? "Too many attempts. Try again later."
+          : err.code === "auth/invalid-email"
+          ? "Invalid email address"
           : "Login failed. Please try again.";
       toast.error(msg, { id: toastId });
     }
@@ -66,11 +68,12 @@ const Login = () => {
     try {
       const { token, user } = await firebaseGoogleLogin();
       dispatch(uinfoAct.assignToken(token));
-      dispatch(uinfoAct.assignData({ role: 1, email: user.email }));
-      toast.success("Welcome! ☕", { id: toastId });
+      dispatch(uinfoAct.assignData({ role: 1, email: user.email, displayName: user.displayName }));
+      toast.success(`Welcome${user.displayName ? ", " + user.displayName : ""}! ☕`, { id: toastId });
       navigate("/products");
-    } catch {
-      toast.error("Google sign-in failed.", { id: toastId });
+    } catch (err) {
+      const msg = err.code === "auth/popup-closed-by-user" ? "Popup closed." : "Google sign-in failed.";
+      toast.error(msg, { id: toastId });
     }
   }
 
@@ -113,11 +116,6 @@ const Login = () => {
             </button>
           </div>
           {error.password && <p className="text-red-500 text-xs mt-1.5">⚠ {error.password}</p>}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <input id="rememberMe" type="checkbox" onChange={(e) => setForm((f) => ({ ...f, rememberMe: e.target.checked }))} className="w-4 h-4 accent-[#6A4029] rounded cursor-pointer" />
-          <label htmlFor="rememberMe" className="text-sm text-gray-600 cursor-pointer">Remember me</label>
         </div>
 
         <button type="submit" disabled={isLoading}

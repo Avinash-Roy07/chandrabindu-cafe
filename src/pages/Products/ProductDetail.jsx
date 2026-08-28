@@ -15,9 +15,8 @@ import {
   useParams,
 } from 'react-router-dom';
 
-import loadingImage from '../../assets/images/loading.svg';
-import lostImage from '../../assets/images/not_found.svg';
 import productPlaceholder from '../../assets/images/placeholder-image.webp';
+import { ProductDetailSkeleton } from '../../components/SkeletonLoaders';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import { cartActions } from '../../redux/slices/cart.slice';
@@ -81,15 +80,7 @@ function ProductDetail(props) {
     );
   };
 
-  const Loading = () => {
-    return (
-      <section className="min-h-[80vh] flex items-center justify-center flex-col">
-        <div>
-          <img src={loadingImage} alt="" />
-        </div>
-      </section>
-    );
-  };
+  const Loading = () => <ProductDetailSkeleton />;
 
   function onChangeForm(e) {
     return setForm((form) => {

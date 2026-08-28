@@ -11,9 +11,8 @@ import {
 } from "react-router-dom";
 
 import penIcon from "../../assets/icons/icon-pen.svg";
-import emptyBox from "../../assets/images/empty.svg";
-import loadingImage from "../../assets/images/loading.svg";
 import productPlaceholder from "../../assets/images/placeholder-image.webp";
+import { ProductsSkeleton } from "../../components/SkeletonLoaders";
 import { n_f } from "../../utils/helpers";
 import withSearchParams from "../../utils/wrappers/withSearchParams.js";
 
@@ -165,12 +164,7 @@ function GetAllProducts(props) {
       };
     }, [catId, page, searchParams]);
 
-    if (isLoading)
-      return (
-        <section className="w-full h-80 flex justify-center items-center">
-          <img src={loadingImage} alt="" />
-        </section>
-      );
+    if (isLoading) return <ProductsSkeleton />;
 
     if (products.length < 1) {
       return (

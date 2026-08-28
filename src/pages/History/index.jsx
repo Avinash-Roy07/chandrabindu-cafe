@@ -8,8 +8,8 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
-import loadingImage from '../../assets/images/loading.svg';
 import productPlaceholder from '../../assets/images/placeholder-image.webp';
+import { HistorySkeleton } from '../../components/SkeletonLoaders';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import Modal from '../../components/Modal';
@@ -118,7 +118,7 @@ function History() {
         className={"w-max max-w-md  md:max-w-none"}
       >
         {dataDetail.isLoading ? (
-          <img src={loadingImage} alt="loading..." className="m-2 w-8 h-8" />
+          <HistorySkeleton />
         ) : (
           <section className="flex flex-col-reverse md:flex-row gap-5 md:w-[80vw] duration-200">
             <aside className="flex-[2_2_0%] space-y-3">
@@ -286,8 +286,8 @@ function History() {
               </section>
             </>
           ) : (
-            <section className="flex justify-center items-center py-7">
-              <img src={loadingImage} className="invert" />
+          <section className="flex justify-center items-center py-7">
+              <HistorySkeleton />
             </section>
           )}
         </section>

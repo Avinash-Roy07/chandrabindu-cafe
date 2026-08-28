@@ -12,8 +12,8 @@ import {
 } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import loadingImage from '../../assets/images/loading.svg';
 import productPlaceholder from '../../assets/images/placeholder-image.webp';
+import { CartSkeleton } from '../../components/SkeletonLoaders';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import Modal from '../../components/Modal';
@@ -75,15 +75,7 @@ function Cart() {
     //     });
   }, [profile]);
 
-  const Loading = (props) => {
-    return (
-      <section className="min-h-[80vh] flex items-center justify-center flex-col">
-        <div>
-          <img src={loadingImage} alt="" />
-        </div>
-      </section>
-    );
-  };
+  const Loading = () => <CartSkeleton />;
 
   const toggleEdit = () => setEditMode(!editMode);
   const saveEditInfo = () => {

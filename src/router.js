@@ -21,6 +21,7 @@ import ProductDetail from "./pages/Products/ProductDetail";
 import Profile from "./pages/Profile";
 import EditPromo from "./pages/Promo/EditPromo";
 import NewPromo from "./pages/Promo/NewPromo";
+import PageTransition from "./components/PageTransition";
 import ScrollToTop from "./utils/scrollToTop";
 import {
   CheckAuth,
@@ -35,6 +36,7 @@ const Routers = () => {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <PageTransition>
       <Routes>
         <Route path="/" element={<TokenHandler />}>
           {/* Public Route */}
@@ -83,6 +85,7 @@ const Routers = () => {
           </Route>
         </Route>
       </Routes>
+      </PageTransition>
     </BrowserRouter>
   );
 };
