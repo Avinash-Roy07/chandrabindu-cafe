@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import fbLogo from '../assets/icons/facebook.svg';
 import igLogo from '../assets/icons/instagram.svg';
 import twLogo from '../assets/icons/twitter.svg';
-import logo from '../assets/jokopi.svg';
+import logo from '../assets/chandrabindu-logo.png';
 
 const AuthFooter = () => {
   return (
@@ -17,8 +17,7 @@ const AuthFooter = () => {
             <div className="flex flex-col gap-4 md:max-w-[50%]">
               <Link to="/">
                 <div className="font-extrabold flex flex-row gap-2">
-                  <img src={logo} alt="logo" width="30px" />{" "}
-                  <h1 className="text-xl text-black">jokopi.</h1>
+                  <img src={logo} alt="logo" className="h-16 w-auto" />
                 </div>
               </Link>
               <div className="">

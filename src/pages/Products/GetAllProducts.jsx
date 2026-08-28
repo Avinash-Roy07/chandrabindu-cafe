@@ -19,6 +19,21 @@ import { getAllProducts } from "../../utils/dataProvider/products";
 import { n_f } from "../../utils/helpers";
 import withSearchParams from "../../utils/wrappers/withSearchParams.js";
 
+const DUMMY_PRODUCTS = [
+  { id: 1, name: "Hazelnut Latte", price: 25000, img: "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&h=300&fit=crop" },
+  { id: 2, name: "Creamy Ice Latte", price: 27000, img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=300&h=300&fit=crop" },
+  { id: 3, name: "Cappuccino", price: 28000, img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=300&h=300&fit=crop" },
+  { id: 4, name: "Espresso Shot", price: 18000, img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=300&h=300&fit=crop" },
+  { id: 5, name: "Matcha Latte", price: 30000, img: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=300&h=300&fit=crop" },
+  { id: 6, name: "Chocolate Frappe", price: 32000, img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=300&h=300&fit=crop" },
+  { id: 7, name: "Veggie Tomato Mix", price: 34000, img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop" },
+  { id: 8, name: "Salty Rice", price: 32000, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300&h=300&fit=crop" },
+  { id: 9, name: "Chicken Wings", price: 45000, img: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=300&h=300&fit=crop" },
+  { id: 10, name: "Beef Sandwich", price: 38000, img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=300&h=300&fit=crop" },
+  { id: 11, name: "Strawberry Smoothie", price: 29000, img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=300&h=300&fit=crop" },
+  { id: 12, name: "Caramel Macchiato", price: 33000, img: "https://images.unsplash.com/photo-1485808191679-5f86510bd9d4?w=300&h=300&fit=crop" },
+];
+
 function GetAllProducts(props) {
   {
     const [products, setProducts] = useState([]);
@@ -50,7 +65,7 @@ function GetAllProducts(props) {
         .catch((err) => {
           if (axios.isCancel(err)) return;
           setIsLoading(false);
-          setProducts([]);
+          setProducts(DUMMY_PRODUCTS);
           setMeta({});
         });
     }
@@ -119,16 +134,22 @@ function GetAllProducts(props) {
 
     if (products.length < 1) {
       return (
-        <section className="w-full flex flex-col justify-center items-center py-8 text-center font-medium gap-5">
-          <div>
-            <img src={emptyBox} alt="" className="w-52" />
-          </div>
-          <div>
-            <p>
-              We&apos;re sorry, it seems our products have gone into hiding.
-            </p>
-            <p>We&apos;ll try to coax them out soon.</p>
-          </div>
+        <section className="grid grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-3 justify-items-center content-around gap-3 gap-y-16 mt-10">
+          {DUMMY_PRODUCTS.map((product) => (
+            <Link to={`/products/detail/${product.id}`} key={product.id}>
+              <section className="relative w-36 bg-white shadow-lg hover:shadow-xl duration-200 p-5 rounded-3xl">
+                <img
+                  src={product.img ?? productPlaceholder}
+                  alt=""
+                  className="aspect-square rounded-full object-cover mt-[-50%] w-full mb-3 shadow-lg"
+                />
+                <div className="flex flex-col gap-5 content-between text-center">
+                  <p className="font-black text-lg min-h-[102px]">{product.name}</p>
+                  <p className="font-bold end text-tertiary">IDR {n_f(product.price)}</p>
+                </div>
+              </section>
+            </Link>
+          ))}
         </section>
       );
     }

@@ -54,60 +54,61 @@ class Mainpage extends Component {
       <Fragment>
         <Header />
         <main>
-          <section className="bg-main bg-cover bg-center py-20 text-white font-bold">
+          <section className="bg-main bg-cover bg-center py-16 md:py-20 text-white font-bold">
             <div className="global-px">
-              <div className="flex flex-col gap-6 w-[75%] lg:w-[50%] text-sm">
-                <h2 className="text-4xl font-bold">
-                  Start Your Day with Coofee and Good Meals
+              <div className="flex flex-col gap-6 w-[85%] sm:w-[75%] lg:w-[50%] text-sm">
+                <h2 className="text-3xl sm:text-4xl font-bold leading-tight">
+                  Start Your Day with Coffee and Good Meals
                 </h2>
-                <p>
+                <p className="text-white/90">
                   We provide high quality beans, good taste, and healthy meals
                   made by love just for you. Start your day with us for a bigger
                   smile!
                 </p>
-                <div className="mt-5">
+                <div className="mt-3">
                   <Link
-                    className="bg-secondary px-6 py-4 text-[#6A4029] rounded-xl"
+                    className="inline-block bg-[#F5C518] px-7 py-3 text-[#6A4029] font-bold rounded-2xl hover:bg-[#e6b800] transition-colors duration-200 shadow-lg"
                     to={"/products/"}
                   >
                     Get Started
                   </Link>
                 </div>
               </div>
-              <section className="relative bg-white mt-20 mb-[-9rem] rounded-xl shadow-xl text-quartenary flex flex-row py-5 justify-center items-center text-center md:text-left">
-                <aside className="flex-1 border-r-2 py-2 md:py-6 flex flex-col md:flex-row justify-center gap-3 md:gap-8 items-center">
-                  <div>
-                    <div className="bg-secondary rounded-full p-2 w-10 aspect-square flex justify-center items-center">
-                      <img src={staffIcon} alt="" />
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-md lg:text-xl">90+</p>
-                    <p className="font-normal text-primary">Staff</p>
-                  </div>
-                </aside>
-                <aside className="flex-1 border-r-2 py-2 md:py-6 flex flex-col md:flex-row justify-center gap-3 md:gap-8 items-center">
-                  <div className="bg-secondary rounded-full p-2 w-10 aspect-square flex justify-center items-center">
-                    <img src={loveIcon} alt="" />
-                  </div>
-                  <div>
-                    <p className="text-md lg:text-xl">800+</p>
-                    <p className="font-normal text-primary">Customers</p>
-                  </div>
-                </aside>
-                <aside className="flex-1 py-2 md:py-6 flex flex-col md:flex-row justify-center gap-3 md:gap-8 items-center">
-                  <div className="bg-secondary rounded-full p-2 w-10 aspect-square flex justify-center items-center">
-                    <img src={placeIcon} alt="" />
-                  </div>
-                  <div>
-                    <p className="text-md lg:text-xl">30+</p>
-                    <p className="font-normal text-primary">Stores</p>
-                  </div>
-                </aside>
-              </section>
             </div>
           </section>
-          <div className="mb-8 md:mb-20"></div>
+
+          {/* Stats card — fully responsive, no negative margin */}
+          <section className="global-px -mt-6 sm:-mt-10 relative z-10">
+            <div className="bg-white rounded-2xl shadow-xl text-gray-700 grid grid-cols-3 divide-x divide-gray-100">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 py-5 px-2 text-center">
+                <div className="bg-[#F5C518] rounded-full p-2 w-10 h-10 flex items-center justify-center shrink-0">
+                  <img src={staffIcon} alt="staff" className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-lg sm:text-xl font-bold text-gray-800">90+</p>
+                  <p className="text-xs sm:text-sm text-gray-500">Staff</p>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 py-5 px-2 text-center">
+                <div className="bg-[#F5C518] rounded-full p-2 w-10 h-10 flex items-center justify-center shrink-0">
+                  <img src={loveIcon} alt="customers" className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-lg sm:text-xl font-bold text-gray-800">800+</p>
+                  <p className="text-xs sm:text-sm text-gray-500">Customers</p>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 py-5 px-2 text-center">
+                <div className="bg-[#F5C518] rounded-full p-2 w-10 h-10 flex items-center justify-center shrink-0">
+                  <img src={placeIcon} alt="stores" className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-lg sm:text-xl font-bold text-gray-800">30+</p>
+                  <p className="text-xs sm:text-sm text-gray-500">Stores</p>
+                </div>
+              </div>
+            </div>
+          </section>
           <section className="flex flex-col lg:flex-row global-px py-20 lg:gap-32">
             <div className="flex-1 img">
               <img src={provideImage} alt="" width="100%" />

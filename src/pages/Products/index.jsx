@@ -24,23 +24,11 @@ import { getPromos } from "../../utils/dataProvider/promo";
 import useDocumentTitle from "../../utils/documentTitle";
 import GetAllProducts from "./GetAllProducts";
 
-const promos = [
-  {
-    name: "Limited Time Offer: 50% off!",
-    desc: "Hurry, don't miss out!",
-  },
-  {
-    name: "Buy One, Get One Free!",
-    desc: "Double the fun.",
-  },
-  {
-    name: "Exclusive Online Deal: Save 20%",
-    desc: "Shop now and save.",
-  },
-  {
-    name: "Flash Sale Alert: 24 Hours Only!",
-    desc: "Act fast, limited stock.",
-  },
+const DUMMY_PROMOS = [
+  { id: 1, name: "50% Off Hazelnut Latte!", desc: "Today only — hurry before it's gone!", badge: "50%", color: "from-orange-400 to-yellow-300" },
+  { id: 2, name: "Buy 1 Get 1 Free", desc: "All coffee drinks every Tuesday.", badge: "B1G1", color: "from-pink-400 to-rose-300" },
+  { id: 3, name: "Save 20% Online", desc: "Use code CAFE20 at checkout.", badge: "20%", color: "from-blue-400 to-cyan-300" },
+  { id: 4, name: "Flash Sale: 24 Hrs Only!", desc: "Selected foods at half price.", badge: "⚡", color: "from-purple-400 to-indigo-300" },
 ];
 
 function Products(props) {
