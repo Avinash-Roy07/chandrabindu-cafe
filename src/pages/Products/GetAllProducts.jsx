@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 
-import axios from "axios";
 import { useSelector } from "react-redux";
 import {
   Link,
@@ -15,7 +14,6 @@ import penIcon from "../../assets/icons/icon-pen.svg";
 import emptyBox from "../../assets/images/empty.svg";
 import loadingImage from "../../assets/images/loading.svg";
 import productPlaceholder from "../../assets/images/placeholder-image.webp";
-import { getAllProducts } from "../../utils/dataProvider/products";
 import { n_f } from "../../utils/helpers";
 import withSearchParams from "../../utils/wrappers/withSearchParams.js";
 
@@ -34,6 +32,59 @@ const DUMMY_PRODUCTS = [
   { id: 12, name: "Caramel Macchiato", price: 33000, img: "https://images.unsplash.com/photo-1485808191679-5f86510bd9d4?w=300&h=300&fit=crop" },
 ];
 
+const DUMMY_BY_CAT = {
+  0: [
+    { id: 1, name: "Hazelnut Latte", price: 25000, img: "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&h=300&fit=crop" },
+    { id: 2, name: "Creamy Ice Latte", price: 27000, img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=300&h=300&fit=crop" },
+    { id: 3, name: "Cappuccino", price: 28000, img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=300&h=300&fit=crop" },
+    { id: 4, name: "Espresso Shot", price: 18000, img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=300&h=300&fit=crop" },
+    { id: 5, name: "Matcha Latte", price: 30000, img: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=300&h=300&fit=crop" },
+    { id: 6, name: "Chocolate Frappe", price: 32000, img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=300&h=300&fit=crop" },
+    { id: 7, name: "Caramel Macchiato", price: 33000, img: "https://images.unsplash.com/photo-1485808191679-5f86510bd9d4?w=300&h=300&fit=crop" },
+    { id: 8, name: "Strawberry Smoothie", price: 29000, img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=300&h=300&fit=crop" },
+  ],
+  1: [
+    { id: 11, name: "Hazelnut Latte", price: 25000, img: "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&h=300&fit=crop" },
+    { id: 12, name: "Cappuccino", price: 28000, img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=300&h=300&fit=crop" },
+    { id: 13, name: "Espresso Shot", price: 18000, img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=300&h=300&fit=crop" },
+    { id: 14, name: "Americano", price: 20000, img: "https://images.unsplash.com/photo-1497515114629-f71d768fd07c?w=300&h=300&fit=crop" },
+    { id: 15, name: "Flat White", price: 26000, img: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=300&h=300&fit=crop" },
+    { id: 16, name: "Cold Brew", price: 30000, img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=300&h=300&fit=crop" },
+    { id: 17, name: "Caramel Macchiato", price: 33000, img: "https://images.unsplash.com/photo-1485808191679-5f86510bd9d4?w=300&h=300&fit=crop" },
+    { id: 18, name: "Mocha", price: 31000, img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=300&h=300&fit=crop" },
+  ],
+  2: [
+    { id: 21, name: "Matcha Latte", price: 30000, img: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=300&h=300&fit=crop" },
+    { id: 22, name: "Chocolate Frappe", price: 32000, img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=300&h=300&fit=crop" },
+    { id: 23, name: "Strawberry Smoothie", price: 29000, img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=300&h=300&fit=crop" },
+    { id: 24, name: "Mango Juice", price: 22000, img: "https://images.unsplash.com/photo-1546173159-315724a31696?w=300&h=300&fit=crop" },
+    { id: 25, name: "Lemon Tea", price: 18000, img: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300&h=300&fit=crop" },
+    { id: 26, name: "Taro Milk Tea", price: 28000, img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop" },
+    { id: 27, name: "Avocado Shake", price: 27000, img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=300&h=300&fit=crop" },
+    { id: 28, name: "Coconut Water", price: 15000, img: "https://images.unsplash.com/photo-1546173159-315724a31696?w=300&h=300&fit=crop" },
+  ],
+  3: [
+    { id: 31, name: "Chicken Wings", price: 45000, img: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=300&h=300&fit=crop" },
+    { id: 32, name: "Beef Sandwich", price: 38000, img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=300&h=300&fit=crop" },
+    { id: 33, name: "Veggie Salad", price: 34000, img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop" },
+    { id: 34, name: "Salty Rice", price: 32000, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300&h=300&fit=crop" },
+    { id: 35, name: "Garlic Bread", price: 20000, img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc7b?w=300&h=300&fit=crop" },
+    { id: 36, name: "Pancakes", price: 28000, img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=300&h=300&fit=crop" },
+    { id: 37, name: "Waffle", price: 30000, img: "https://images.unsplash.com/photo-1562376552-0d160a2f238d?w=300&h=300&fit=crop" },
+    { id: 38, name: "Club Sandwich", price: 42000, img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=300&h=300&fit=crop" },
+  ],
+  4: [
+    { id: 41, name: "Extra Shot", price: 5000, img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=300&h=300&fit=crop" },
+    { id: 42, name: "Whipped Cream", price: 5000, img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=300&h=300&fit=crop" },
+    { id: 43, name: "Caramel Syrup", price: 7000, img: "https://images.unsplash.com/photo-1485808191679-5f86510bd9d4?w=300&h=300&fit=crop" },
+    { id: 44, name: "Vanilla Syrup", price: 7000, img: "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&h=300&fit=crop" },
+    { id: 45, name: "Oat Milk", price: 8000, img: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=300&h=300&fit=crop" },
+    { id: 46, name: "Almond Milk", price: 8000, img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=300&h=300&fit=crop" },
+    { id: 47, name: "Chocolate Drizzle", price: 6000, img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=300&h=300&fit=crop" },
+    { id: 48, name: "Ice Cream Scoop", price: 12000, img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=300&h=300&fit=crop" },
+  ],
+};
+
 function GetAllProducts(props) {
   {
     const [products, setProducts] = useState([]);
@@ -46,28 +97,17 @@ function GetAllProducts(props) {
     const { sort, setSort } = props;
 
     function getProducts(catId, searchParams, controller) {
-      const sort = searchParams.get("sort");
-      const orderBy = searchParams.get("orderBy");
       const searchByName = searchParams.get("q");
       setIsLoading(true);
-
-      getAllProducts(
-        catId,
-        { sort, limit: 8, searchByName, orderBy, page },
-        controller
-      )
-        .then((response) => response.data)
-        .then((data) => {
-          setProducts(data.data);
-          setMeta(data.meta);
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          if (axios.isCancel(err)) return;
-          setIsLoading(false);
-          setProducts(DUMMY_PRODUCTS);
-          setMeta({});
-        });
+      const cat = catId ? parseInt(catId) : 0;
+      const filtered = searchByName
+        ? DUMMY_BY_CAT[cat]?.filter((p) =>
+            p.name.toLowerCase().includes(searchByName.toLowerCase())
+          ) ?? []
+        : DUMMY_BY_CAT[cat] ?? DUMMY_PRODUCTS;
+      setProducts(filtered);
+      setMeta({});
+      setIsLoading(false);
     }
 
     // const controller = React.useMemo(() => new AbortController(), [catId]);

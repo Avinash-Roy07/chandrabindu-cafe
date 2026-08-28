@@ -15,12 +15,8 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-import penIcon from "../../assets/icons/icon-pen.svg";
-import illustrationsPromo from "../../assets/illustrations/mobile-search-undraw.png";
-import images from "../../assets/images/person-with-a-coffee.webp";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import { getPromos } from "../../utils/dataProvider/promo";
 import useDocumentTitle from "../../utils/documentTitle";
 import GetAllProducts from "./GetAllProducts";
 
@@ -95,21 +91,9 @@ function Products(props) {
     }
   }, [search]);
 
-  const fetchPromo = async () => {
-    try {
-      setPromoLoad(true);
-      const result = await getPromos({ page: 1 }, controller);
-      setPromo(result.data.data);
-      setPromoLoad(false);
-    } catch (error) {
-      setPromoLoad(false);
-      setPromo([]);
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    fetchPromo();
+    setPromo(DUMMY_PROMOS);
+    setPromoLoad(false);
   }, []);
 
   useDocumentTitle(props.title);
@@ -126,54 +110,20 @@ function Products(props) {
             Check them out!
           </p>
           <div className="flex flex-col justify-center gap-5">
-            {promoLoad ? (
-              <Skeleton
-                height={125}
-                count={4}
-                containerClassName="flex-1 w-[350px] md:w-auto lg:w-[346px]"
-                style={{ marginBottom: "1rem", minWidth: 250 }}
-              />
-            ) : promo.length < 1 ? (
-              <div className="flex flex-col text-center">
-                <img src={illustrationsPromo} width={200} />
-                <p className="text-tertiary font-semibold">No promo today</p>
-                <p className="text-black font-medium text-sm">
-                  Dont worry, check tommorow
-                </p>
-              </div>
-            ) : (
-              promo.map((promo, idx) => (
-                <div
-                  className="flex flex-row items-center bg-slate-300  rounded-xl gap-2 px-4 py-3 relative"
-                  key={idx}
-                >
-                  <div className="flex-1 flex justify-center py-1">
-                    {/* <img src={promo.img || images} alt="" width="75px" /> */}
-                    <div className="avatar">
-                      <div className="w-24 rounded-xl">
-                        <img
-                          src={promo.img || images}
-                          className="mix-blend-multiply contrast-100"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex-[2_2_0%]">
-                    <p className="font-bold">{promo.name}</p>
-                    <p className="text-sm">{promo.desc}</p>
-                  </div>
-
-                  {Number(userInfo.role) > 1 && (
-                    <NavLink
-                      to={`/promo/edit/${promo.id}`}
-                      className="bg-tertiary absolute bottom-0 right-0 w-7 h-7 rounded-full flex items-center justify-center hover:bg-primary-focus"
-                    >
-                      <img src={penIcon} className="w-4 h-4" />
-                    </NavLink>
-                  )}
+            {promo.map((p, idx) => (
+              <div
+                key={idx}
+                className={`flex flex-row items-center bg-gradient-to-r ${p.color} rounded-xl gap-3 px-4 py-4 relative shadow-md`}
+              >
+                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center font-extrabold text-sm text-gray-700 shadow flex-shrink-0">
+                  {p.badge}
                 </div>
-              ))
-            )}
+                <div className="flex-1">
+                  <p className="font-bold text-white text-sm">{p.name}</p>
+                  <p className="text-white text-xs opacity-90">{p.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
           {Number(props.userInfo.role) > 1 && (
             <div className="mt-auto flex w-full">
