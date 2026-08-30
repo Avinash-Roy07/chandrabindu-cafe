@@ -14,92 +14,114 @@ const PromoBottomSheet = () => {
   if (!open) return null;
 
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 9999, pointerEvents: "all" }}>
-
-      {/* Backdrop */}
+    <>
+      {/* Backdrop — separate from sheet */}
       <div
         onClick={() => setOpen(false)}
-        style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.6)" }}
+        style={{
+          position: "fixed",
+          top: 0, left: 0, right: 0, bottom: 0,
+          zIndex: 9000,
+          background: "rgba(0,0,0,0.6)",
+        }}
       />
 
-      {/* Sheet */}
+      {/* Sheet — above backdrop */}
       <div style={{
-        position: "absolute",
-        bottom: 0, left: 0, right: 0,
-        minHeight: 300,
-        background: "#fff",
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 9001,
+        background: "#ffffff",
         borderRadius: "20px 20px 0 0",
-        padding: "16px 16px 32px",
-        boxShadow: "0 -8px 32px rgba(0,0,0,0.3)",
-        animation: "slideUp 0.4s ease forwards",
-        overflow: "hidden",
+        padding: "14px 16px 36px 16px",
+        boxShadow: "0 -4px 30px rgba(0,0,0,0.2)",
+        animation: "promoSlideUp 0.45s ease forwards",
+        maxHeight: "90vh",
+        overflowY: "auto",
       }}>
-
-        {/* Handle bar */}
-        <div style={{ textAlign: "center", marginBottom: 12 }}>
+        {/* Handle */}
+        <div style={{ textAlign: "center", marginBottom: 10 }}>
           <div style={{
-            display: "inline-block", width: 40, height: 4,
-            borderRadius: 2, background: "#ccc",
+            display: "inline-block",
+            width: 44, height: 5,
+            borderRadius: 3,
+            background: "#ddd",
           }} />
         </div>
 
-        {/* Close × */}
+        {/* Close button */}
         <button
           onClick={() => setOpen(false)}
           style={{
-            position: "absolute", top: 14, right: 14,
-            width: 32, height: 32, borderRadius: "50%",
-            background: "#eee", border: "none", cursor: "pointer",
-            fontSize: 22, fontWeight: "bold", color: "#333",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            zIndex: 1,
+            position: "absolute",
+            top: 14, right: 14,
+            width: 34, height: 34,
+            borderRadius: "50%",
+            background: "#f0f0f0",
+            border: "none",
+            cursor: "pointer",
+            fontSize: 22,
+            fontWeight: "bold",
+            color: "#444",
+            lineHeight: "34px",
+            textAlign: "center",
+            padding: 0,
           }}
         >×</button>
 
-        {/* Image container with fixed height so sheet has size */}
-        <div style={{
-          width: "100%", minHeight: 220,
-          background: "#f5f0eb",
-          borderRadius: 14, overflow: "hidden",
-          marginBottom: 14,
-        }}>
-          <img
-            src={promoBanner}
-            alt="Special Offer"
-            style={{ width: "100%", display: "block", objectFit: "cover" }}
-          />
-        </div>
+        {/* Promo image */}
+        <img
+          src={promoBanner}
+          alt="Special Offer"
+          style={{
+            width: "100%",
+            display: "block",
+            borderRadius: 16,
+            marginBottom: 14,
+          }}
+        />
 
-        {/* Buttons */}
+        {/* Action buttons */}
         <div style={{ display: "flex", gap: 10 }}>
           <button
             onClick={() => { setOpen(false); navigate("/products"); }}
             style={{
-              flex: 1, padding: "13px 0",
-              background: "#6A4029", color: "#F5C518",
-              fontWeight: 700, fontSize: 15,
-              border: "none", borderRadius: 12, cursor: "pointer",
+              flex: 1,
+              padding: "14px 0",
+              background: "#6A4029",
+              color: "#F5C518",
+              fontWeight: 700,
+              fontSize: 15,
+              border: "none",
+              borderRadius: 14,
+              cursor: "pointer",
             }}
           >Order Now ☕</button>
           <button
             onClick={() => setOpen(false)}
             style={{
-              padding: "13px 20px",
-              background: "#f5f0eb", color: "#6A4029",
-              fontWeight: 600, fontSize: 14,
-              border: "none", borderRadius: 12, cursor: "pointer",
+              padding: "14px 22px",
+              background: "#f5f0eb",
+              color: "#6A4029",
+              fontWeight: 600,
+              fontSize: 14,
+              border: "none",
+              borderRadius: 14,
+              cursor: "pointer",
             }}
           >Later</button>
         </div>
       </div>
 
       <style>{`
-        @keyframes slideUp {
-          from { transform: translateY(100%); opacity: 0; }
-          to   { transform: translateY(0);    opacity: 1; }
+        @keyframes promoSlideUp {
+          from { transform: translateY(100%); }
+          to   { transform: translateY(0); }
         }
       `}</style>
-    </div>
+    </>
   );
 };
 

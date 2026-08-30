@@ -163,7 +163,7 @@ class Header extends Component {
         <div
           className={`${
             this.state.isNavbarOpen ? "translate-x-0" : "translate-x-full"
-          } transform h-full w-80 bg-white fixed top-0 right-0 z-[60] transition-transform duration-300 ease-in-out`}
+          } transform h-full w-72 max-w-[85vw] bg-white fixed top-0 right-0 z-[60] transition-transform duration-300 ease-in-out`}
         >
           <Sidebar onClose={this.toggleNavbar} />
         </div>
