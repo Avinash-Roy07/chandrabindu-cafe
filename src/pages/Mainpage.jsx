@@ -25,6 +25,7 @@ import provideImage from '../assets/images/team-work.webp';
 // components
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import PromoBottomSheet from '../components/PromoBottomSheet';
 
 class Mainpage extends Component {
   state = {
@@ -53,6 +54,7 @@ class Mainpage extends Component {
     return (
       <Fragment>
         <Header />
+        <PromoBottomSheet />
         <main>
           <section className="bg-main bg-cover bg-center py-16 md:py-20 text-white font-bold">
             <div className="global-px">
